@@ -238,7 +238,7 @@ function init() {
     const timer = setInterval(() => {
       i = Math.min(i + 1, LOADING_MESSAGES.length - 1);
       $('loading-msg').textContent = LOADING_MESSAGES[i];
-    }, 20000);
+    }, 50000);
 
     try {
       const rec = await generate(surname, prefecture);
