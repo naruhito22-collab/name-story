@@ -201,6 +201,12 @@ async function generate(surname, prefecture) {
     body: JSON.stringify({ surname, prefecture }),
   });
   const data = await res.json().catch(() => ({}));
+  if (res.status === 429) {
+    // 全体の1日上限（日本語メッセージ）か、中継の1分あたり制限（英語メッセージ）
+    throw new Error(/[ぁ-ん]/.test(data.error || '')
+      ? data.error
+      : '混み合っています。1分ほどおいてから、もう一度お試しください。');
+  }
   if (!res.ok) throw new Error(data.error || '物語の生成に失敗しました。');
   return data;
 }
